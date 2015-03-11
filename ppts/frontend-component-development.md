@@ -6,7 +6,7 @@ transition: slide
 [slide]
 
 # 项目中的前端组件开发
-## SCSS Components
+## Frontend Components
 <small>演讲者：[@Vincent Hou](https://github.com/vincenthou)</small>
 
 [slide]
@@ -70,9 +70,7 @@ QQ： 2080432723
 
 [slide]
 
-### 举个栗子
-----
-![Sample](http://vdemo.qiniudn.com/dom.png) {:&.flexbox.vcenter}
+![Sample](http://vdemo.qiniudn.com/dom.png) {:.flexbox.vcenter style="margin-top:-40px"}
 
 ```html
 <div class="messages-wrapper" ng-repeat="message in page.messages">
@@ -94,8 +92,6 @@ QQ： 2080432723
     </div>
 </div>
 ```
-
-Any problems?
 
 [slide]
 
@@ -124,12 +120,116 @@ Any problems?
 
 ## 干净的样式
 ----
-* 最少层次的嵌套(5层以内)
+* 最少层次的嵌套(3层以内)
 * 局部化变量, 防止污染全局空间
 * 合理使用mixin和extend
-* 适时的重构样式, 提取公共组件
+* 学会偷懒
+* 你还是在写CSS
+* 适时重构样式
 
-..scss 最佳实践..
+[slide]
+
+### 最少层次的嵌套(3层以内)
+
+```sass
+body {
+  .wrapper {
+    .content {
+      #top-story {
+        .title {
+          a {
+            /* STYLES HERE */
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+->
+
+```sass
+body .wrapper .content #top-story .title a {
+  /* STYLES HERE */
+}
+```
+
+[slide]
+
+### 局部化变量, 防止污染全局空间
+
+```sass
+$bg-color = gray;
+message-wrapper {
+    background-color: $bg-color;
+    ...
+}
+```
+
+->
+
+```sass
+message-wrapper {
+    $bg-color = gray;
+    background-color: $bg-color;
+    ...
+}
+```
+
+[slide]
+
+### 合理使用mixin和extend
+
+你的理解是怎样的？
+
+* mixin不是mixin, extend不是extend {:&.slideIn}
+* mixin会在生成的CSS中重复多份
+* extend会将公共的样式赋予继承类，类似组合的概念
+
+```sass
+.weather {
+  @extends %module;
+  background: LightCyan;
+  @include transition(all 0.3s ease);
+  > h3 {
+    border-bottom: 1px solid white;
+    @include transform(rotate(90deg));
+  }
+}
+```
+Reference:
+[Extend placeholder selector](http://thesassway.com/intermediate/understanding-placeholder-selectors) [Mixin or Placeholder](http://www.sitepoint.com/sass-mixin-placeholder/)
+
+[slide]
+
+### 学会偷懒
+
+* 还是DRY，DRY很重要
+* 首先看bootstrap中有没有，是否满足需要，这需要改全局变量的值还是要局部覆盖
+* 看公共样式组件中是否已经存在，如果是一个公共的需求，考虑添加新的公共样式
+* 其他地方有个类似的，改成公共样式大家用
+* 实在没有办法就自己实现一个吧
+
+[slide]
+
+## 你还是在写CSS
+
+* SCSS只是工具，你更要关心生成的样式是怎样的
+* OOCSS
+* SMACSS
+* DRY CSS
+* BEM
+
+参考 [CSS模块化](https://github.com/vincenthou/vincenthou.github.io/issues/25)
+
+[slide]
+
+## 适时重构样式
+
+![Pay Back](http://vdemo.qiniudn.com/pay_back.png)
+
+出来混迟早是要还的 {:&.bounceIn}
 
 [slide]
 
