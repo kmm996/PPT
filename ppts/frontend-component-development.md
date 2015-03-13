@@ -183,11 +183,12 @@ message-wrapper {
 
 你的理解是怎样的？
 
-* mixin不是mixin, extend不是extend {:&.slideIn}
+{:&.fadeIn}
+* mixin不是mixin, extend不是extend
 * mixin会在生成的CSS中重复多份
 * extend会将公共的样式赋予继承类，类似组合的概念
 
-```sass
+```sass 
 .weather {
   @extends %module;
   background: LightCyan;
@@ -198,8 +199,8 @@ message-wrapper {
   }
 }
 ```
-Reference:
-[Extend placeholder selector](http://thesassway.com/intermediate/understanding-placeholder-selectors) [Mixin or Placeholder](http://www.sitepoint.com/sass-mixin-placeholder/)
+
+Reference: [Extend placeholder selector](http://thesassway.com/intermediate/understanding-placeholder-selectors) [Mixin or Placeholder](http://www.sitepoint.com/sass-mixin-placeholder/)
 
 [slide]
 
@@ -210,6 +211,59 @@ Reference:
 * 看公共样式组件中是否已经存在，如果是一个公共的需求，考虑添加新的公共样式
 * 其他地方有个类似的，改成公共样式大家用
 * 实在没有办法就自己实现一个吧
+
+[slide]
+
+## 公共组件
+
+src/frontend/web/modules/core
+
+```sh
+├── controllers
+│   ├── graphicCtrl.coffee
+│   └── userCtrl.coffee
+├── coreLoader.coffee
+├── coreModule.coffee
+├── directives
+│   ├── wmAutoComplete.coffee
+│　　　　　　　...
+├── filter
+│   ├── countdownFilter.coffee
+│　　　　　　　...
+├── index.scss
+├── partials
+│   ├── graphicmodal.html
+│   ├── properties
+│   └── wm-bootstrap-tpls.js
+├── services
+│   ├── authService.coffee
+│　　　　　　　...
+└── styles
+```
+
+[slide]
+
+## 公共样式组件
+
+```sh
+├── components
+│   ├── _autocomplete.scss
+│   ├── _breadcrumb.scss
+│   ├── _button.scss
+│   ├── _checkbox.scss
+│   ├── _copy.scss
+│   ├── _customerfilter.scss
+│   ├── _datetimepicker.scss
+│   ├── _dropdown.scss
+│   ├── _fileupload.scss
+│　　　　　　　...
+├── _components.scss
+├── _layout.scss
+└── mixins
+    ├── _font-size.scss
+    └── _util.scss
+
+```
 
 [slide]
 
@@ -233,27 +287,48 @@ Reference:
 
 [slide]
 
-## 清晰的行为
+## 清晰的行为 (controller)
 ----
 * 最小依赖，仅仅注入需要service, factory, value
 * 使用面向对象的思维编写页面和组件
 * 适时抽取公共的service，避免DRY
 * 避免依赖scope的层次结构传递数据
 
-..展开讨论..
+[slide]
+
+## 来个组件 (directive)
+----
+* 理解directive, filter, service 和 controller的分工
+* scope的三种接口：@, &, =
+* 最小化外部信息，根据需要提供theme的切换
+* 过于复杂的功能考虑拆分
+* 复杂的逻辑内部消化，保持接口简洁和可测试性
+* restrict: 'A'
+
+Reference: [Understanding Directives](https://github.com/angular/angular.js/wiki/Understanding-Directives) [Testable directive](http://ng-learn.org/2014/01/Dom-Manipulations/)
 
 [slide]
 
-## 来个组件
+## 设计原则
 ----
-* 理解directive, filter, service 和 controller的分工
+* OCP　开闭原则　{:&.moveIn}
+* LSP　里氏代换原则
+* DIP　依赖倒转原则
+* ISP　接口隔离原则　(不要写万能的模块)
+* CARP　合成/聚合复用原则　（多使用组合）
+* PLK　最小知识原则（迪米特法则，Facade，jquery）
 
-..组件的最佳实践..
 
----Last---
 [slide]
 
 ## 使用lint帮助你学习最佳实践
+
+* [CoffeeLint](http://www.coffeelint.org/)
+* [SCSSLint](https://github.com/causes/scss-lint)
+
+[slide]
+
+## Look forward for the [feature](https://github.com/w3c/webcomponents)
 
 [slide]
 
