@@ -103,7 +103,10 @@ Route::get('home', 'HomeController@index');
 
 ## 优雅的模版引擎(2)
 
+* [语法](http://my.oschina.net/whsheng/blog/324456)
+
 ```php
+
 @extends('app')
 
 @section('content')
@@ -149,6 +152,17 @@ php artisan migrate:rollback
 ```php
 php artisan migrate:reset
 ```
+[slide] Facades
+
+* [Facades](http://www.cnblogs.com/wzh206/archive/2010/03/21/1691112.html)
+
+* Facades 提供一个静态接口给在应用程序的 服务容器 中可以取用的类。Laravel 附带许多 facades，甚至你可能已经在不知情的状况下使用过它们！Laravel 的「facades」作为在 IoC 容器里面的基础类的静态代理，提供的语法有简洁、易表达的优点，同时维持比传统的静态方法更高的可测试性和弹性。
+
+* 在 Laravel 应用程序的环境中，facade 是个提供从容器访问对象的类。Facade 类是让这个机制可以运作的原因。Laravel 的 facades 和你建立的任何自定义 facades，将会继承基本的 Facade 类。
+
+你的 facade 类只需要去实现一个方法：getFacadeAccessor。getFacadeAccessor 方法的工作是定义要从容器解析什么。基本的 Facade 类利用 __callStatic() 魔术方法来从你的 facade 调用到解析出来的对象。
+
+所以当你对 facade 调用，例如 Cache::get，Laravel 从 IoC 容器解析缓存管理类出来，并对该类调用 get 方法。用专业口吻来说，Laravel Facades 是使用 Laravel IoC 容器作为服务定位器的便捷语法。
 
 [slide]
 
@@ -252,3 +266,11 @@ $array = array('foo' => 'bar');
 
 list($keys, $values) = array_divide($array);
 ```
+
+* [and so on](http://www.golaravel.com/laravel/docs/5.0/helpers/)
+
+[slide]
+
+## 好书推荐
+
+php核心技术与最佳实践
