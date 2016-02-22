@@ -32,7 +32,7 @@ theme: green
 
 [slide]
 
-[手机适配方案](http://vdemo.qiniudn.com/mobile-adaption.jpeg)
+![手机适配方案](http://vdemo.qiniudn.com/mobile-adaption.jpeg)
 
 设计师选择iPhone6作为基准设计尺寸，交付给开发的设计尺寸是按750px * 1334px为准(高度会随着内容多少而改变)。前端开发人员通过一套适配规则自动适配到其他的尺寸。
 
@@ -90,7 +90,7 @@ dpr = 750 / 375 = 2
 
 ## 实际逻辑像素效果取决于
 
-* 是否位理想视口
+* 是否是理想视口
 * 页面是否缩放
 * 屏幕是否为高密度
 
@@ -145,7 +145,7 @@ div {
 
 ## 小背景图不使用rem
 
-较小的背景图（比如一些 icon）的 background-size 不要使用具体 rem 数值，裁剪后会出现边缘丢失。应使用与元素等尺寸切图，设定background-size来缩放
+较小的背景图（比如icon）的 background-size 不要使用具体 rem 数值，裁剪后会出现边缘丢失。应使用与元素等尺寸切图，设定background-size来缩放
 
 ```css
 .cover-bg {
@@ -220,7 +220,7 @@ div {
 * 静态资源放置在static目录下，包括图片，字体，JS脚本和CSS样式表（支持使用coffee和SCSS）
 * 静态资源的引用方式比较自由（通过在action中根据条件注入，在views的layouts目录下定义，直接在PHP页面上使用script引入）
 
-**一点吐槽:** script标签应该放在body底部，起码也加个async或defer属性吧
+**一点吐槽:** script标签应该放在body底部，起码也加个async或defer属性吧 {:&.moveIn}
 
 [slide]
 
@@ -263,27 +263,24 @@ div {
 
 ```text
 <header class="c-header">
-<span class="c-header__return" onclick={ back }></span>
-<div class="c-header__title">{ opts.title }</div>
+  <span class="c-header__return" onclick={ back }></span>
+  <div class="c-header__title">{ opts.title }</div>
 
-<script>
-  var self = this;
-  const C_FUNCTION = 'function';
+  <script>
+    var self = this;
 
-  this.beforeHandler = this.beforeHandler || this.opts.beforeHandler;
-  this.customHandler = this.customHandler || this.opts.customHandler;
+    this.beforeHandler = this.beforeHandler || this.opts.beforeHandler;
+    this.customHandler = this.customHandler || this.opts.customHandler;
 
-  this.back = () => {
-  if (self.customHandler && typeof(self.customHandler) === C_FUNCTION) {
-    self.customHandler.apply(self);
-  } else {
-    if (self.beforeHandler && typeof(self.beforeHandler) === C_FUNCTION) {
-      self.beforeHandler.apply(self);
+    this.back = () => {
+      if (util.isFunction(self.customHandler)) {
+        self.customHandler.apply(self);
+      } else {
+        util.isFunction(self.beforeHandler) && self.beforeHandler.apply(self);
+        window.history.back();
+      }
     }
-    window.history.back();
-  }
-</script>
-
+  </script>
 </header>
 ```
 
@@ -297,19 +294,12 @@ div {
   color: $brand-default-color;
   text-align: center;
   position: relative;
-  font-size: .38rem;
   height: 1.25rem;
   line-height: 1.25rem;
 
   &__return {
     @include background-image('/images/mobile/components/return.png');
     @include size(1.1rem, 100%);
-
-    background-size: .44rem;
-    background-position: .33rem center;
-    position: absolute;
-    top: 0;
-    left: 0;
   }
 
   &__title {
@@ -327,19 +317,18 @@ div {
 <header></header>
 
 <panel class="additional-panel" padding="true">
-<location location="{ opts.location }" optionstag="{ opts.optionstag }" finishedhandler="{ opts.finishedhandler }" changedhandler="{ opts.changedhandler }"></location>
+  <location location="{ opts.location }"></location>
 </panel>
 
 <section class="btns-wrapper clearfix">
-<btn class="cancel-btn"></btn>
-<btn class="sure-btn"></btn>
+  <btn class="cancel-btn"></btn>
+  <btn class="sure-btn"></btn>
 </section>
 
 <popselect-options></popselect-options>
 
 <script src="/build/webapp/components/header/header.js"></script>
 <script src="/build/webapp/components/popselect/popselect.js"></script>
-<script src="/build/webapp/components/popselect-options/popselect-options.js"></script>
 <script src="/build/webapp/components/location/location.js"></script>
 <script src="/build/webapp/components/btn/btn.js"></script>
 <script src="/build/webapp/components/panel/panel.js"></script>
@@ -382,6 +371,7 @@ Vue.js
 * [Chrome DevTools](https://developer.chrome.com/devtools/docs/device-mode)
 * [Weinre](http://blog.csdn.net/freshlover/article/details/42640253)
 * [微信web开发者工具](http://mp.weixin.qq.com/wiki/10/e5f772f4521da17fa0d7304f68b97d7e.html#.E4.B8.8B.E8.BD.BD.E5.9C.B0.E5.9D.80)
+* [Browsersync](http://www.browsersync.cn/)
 
 [slide]
 
@@ -415,7 +405,7 @@ CRAP
 * 对比能够让讯息更准确的传达，内容更容易的被找到、被记住。如果你想让对比效果更明显，就一定要大胆，不要让两种颜色看起来好像差不错又不一样
 * 当然也不要在同一个页面使用太多种字体
 
-[slide style="background-image--:url('http://vdemo.qiniudn.com/contrast-design.jpg');background-size:cover;"]
+[slide style="background-image:url('http://vdemo.qiniudn.com/contrast-design.jpg');background-size:cover;"]
 
 [slide]
 
@@ -425,7 +415,7 @@ CRAP
 * 可以重复颜色、形状、材质、空间关系、线宽、材质、空间等
 * 既能增加条理性，又能增加统一性
 
-[slide style="background-image--:url('http://vdemo.qiniudn.com/repetition-design.jpg');background-size:cover;"]
+[slide style="background-image:url('http://vdemo.qiniudn.com/repetition-design.jpg');background-size:cover;"]
 
 [slide]
 
@@ -437,7 +427,7 @@ CRAP
 * 避免一个页面上混用多种对其模式，也就是不要有一些置左，有一些置右
 * 尽量避免使用居中对齐，除非是比较正式、稳重的设计（有些时候居中是一种很土的对齐方式）
 
-[slide style="background-image--:url('http://vdemo.qiniudn.com/alignment-design.jpg');background-size:cover;"]
+[slide style="background-image:url('http://vdemo.qiniudn.com/alignment-design.jpg');background-size:cover;"]
 
 [slide]
 
@@ -447,7 +437,7 @@ CRAP
 * 如果多个项相互之间存在很近的亲密性，它们就会成为一个视觉单元，而不是多个孤立的元素
 * 有助于组织信息，减少混乱，为读者提供清晰的结构
 
-[slide style="background-image--:url('http://vdemo.qiniudn.com/proximity-design.jpg');background-size:cover;"]
+[slide style="background-image:url('http://vdemo.qiniudn.com/proximity-design.jpg');background-size:cover;"]
 
 [slide]
 
@@ -455,6 +445,7 @@ CRAP
 
 * [使用Flexible实现手淘H5页面的终端适配](https://github.com/amfe/article/issues/17)
 * [MobileWeb 适配总结](http://html-js.com/article/MobileWeb)
+* [Flowchart: how to retinafy your website](http://mir.aculo.us/2012/06/26/flowchart-how-to-retinafy-your-website/)
 * [移动端适配方案(上)](https://github.com/riskers/blog/issues/17)
 * [移动端适配方案(下)](https://github.com/riskers/blog/issues/18)
 * [移动端页面适配方案PPT](http://ybshare.coding.io/share/flexible.htm)
@@ -462,6 +453,15 @@ CRAP
 * [viewports剖析](http://www.w3cplus.com/css/viewports.html)
 * [Paul Irish's post: Chrome DevTools for Mobile](http://www.html5rocks.com/en/tutorials/developertools/mobile/?redirect_from_locale=zh)
 * [移动端前端开发调试](http://yujiangshui.com/multidevice-frontend-debug/)
+* [视区相关单位vw, vh..简介以及可实际应用场景](http://www.zhangxinxu.com/wordpress/2012/09/new-viewport-relative-units-vw-vh-vm-vmin/)
+
+[slide]
+
+## 切图神器
+
+* [MarkMan](http://www.getmarkman.com/)/[PxCook](http://www.fancynode.com.cn/pxcook/home)
+* [AssistorPS](http://www.uisdc.com/tag/assistor-ps)/[Parker](http://www.cutterman.cn/v2/parker)
+* [Cutterman](http://www.cutterman.cn/v2/cutterman)
 
 [slide]
 
