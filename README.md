@@ -8,8 +8,8 @@ All the ppts are presented based on [nodePPT](https://github.com/ksky521/nodePPT
 Enter commands below.
 ```sh
 git clone git@github.com:frontnode/PPT.git
-cd ppts
-nodeppt start -w
+npm run ppt
+npm run demo
 ```
 
 ## Contribute

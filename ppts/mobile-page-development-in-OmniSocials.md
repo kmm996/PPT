@@ -16,11 +16,11 @@ theme: green
 
 * 尺寸定义
 * 可选的布局方式
+* 调试工具
+* 设计的基本原则
 * 开发模式说明
 * 基础库依赖
 * 组件化方案
-* 调试工具
-* 懂点设计
 
 [slide]
 
@@ -48,28 +48,34 @@ theme: green
 
 ## 两种像素
 
-* 物理像素(pt): 任何设备屏幕的物理像素的数量都是固定不变的
-* 逻辑像素/CSS像素(px): 在CSS、JS中使用的一个抽象的概念，也可以称为设备独立像素，简称为dips
-* DPR: 物理像素与逻辑像素（px）的对应关系， **物理像素/逻辑像素**，可以通过`window.devicePixelRatio`获取
+* **物理像素(pt):** 任何设备屏幕的物理像素的数量都是固定不变的
+* **逻辑像素/CSS像素(px):** 在CSS、JS中使用的一个抽象的概念，也可以称为设备独立像素，简称为dips
+* **DPR:** 物理像素与逻辑像素（px）的对应关系， **物理像素/逻辑像素**，可以通过`window.devicePixelRatio`获取
 
 ```text
-iphone 6
-----------
-1334pt * 750pt
-4.7 inches
-326 ppi
------------
 667px * 375px
 dpr = 750 / 375 = 2
 ```
 
 [slide]
 
+## 以iphone6为例
+
+* **分辨率:** 1334pt * 750pt
+* **屏幕尺寸:** 4.7 inches (屏幕对角线长度)
+* **屏幕像素密度:** 326 dpi
+
+![PPI](https://camo.githubusercontent.com/c1502f74d9951713cd06f2fd56ba2937a374d92a/687474703a2f2f37786c6332612e636f6d312e7a302e676c622e636c6f7564646e2e636f6d2f31362d312d31392f35363932343537332e6a70673f696d616765566965772f322f772f333030)
+
+**Notice:** 屏幕像素密度(Pixels Per Inch)简称 ppi ，单位是 dpi(dot per inch)。这里指屏幕水平或垂直每英寸有326个物理像素。原则上来说，ppi越高越好，因为图像会更加细腻清晰。
+
+[slide]
+
 ## 三种视口
 
-* 布局视口: 在手机上，视口与移动端浏览器屏幕宽度不再相关联，是完全独立的，是浏览器厂商定的视口
-* 视觉视口: 用户正在看到的网页的区域，大小是屏幕中CSS像素的数量
-* 理想视口: 对设备来说最理想的布局视口尺寸，用户进入页面的时候不需要缩放
+* **布局视口(Layout Viewport):** 可以在JS通过 `document.body.clientWidth` 获取
+* **视觉视口(Visual Viewport):** 可以在JS通过 `window.innerWidth` 获取
+* **理想视口:** 可以在JS通过 `screen.width` 获取，有兼容性问题，但在试验中可以认为就是理想尺寸
 
 ```html
 <meta name="viewport" content="width=device-width">
@@ -77,10 +83,32 @@ dpr = 750 / 375 = 2
 
 [slide]
 
+## 布局视口
+
+在手机上，视口与移动端浏览器屏幕宽度不再相关联，是完全独立的，是浏览器厂商定的视口
+
+![布局视口](https://camo.githubusercontent.com/43e1321a2708326ba26ac9710f714f75838b5343/687474703a2f2f37786c6332612e636f6d312e7a302e676c622e636c6f7564646e2e636f6d2f46764754754e6a6a366a6270485a765874636a2d4c365f7951577858)
+
+[slide]
+
+## 视觉视口
+
+用户正在看到的网页的区域，大小是屏幕中CSS像素的数量
+
+![视觉视口](https://camo.githubusercontent.com/7caa987d3754bd966fab21333dc8a351a3d108b2/687474703a2f2f37786c6332612e636f6d312e7a302e676c622e636c6f7564646e2e636f6d2f466d786c6e414f5f5f2d35365a5a4e5335485a6364516c6f4e546649)
+
+[slide]
+
+##理想视口
+
+理想视口中的网页用户最理想的宽度，用户进入页面的时候不需要缩放
+
+[slide]
+
 ## 缩放的影响
 
 * 缩放是在放大或缩小逻辑像素，也就是CSS像素，不影响设备像素
-* 缩放会影响视觉视口的尺寸，不会影响布局视口
+* 缩放会影响布局视口的尺寸，不会影响视觉视口
 
 ```html
 <meta name="viewport" content="initial-scale=1,user-scalable=no">
@@ -94,9 +122,20 @@ dpr = 750 / 375 = 2
 * 页面是否缩放
 * 屏幕是否为高密度
 
-```html
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-```
+[slide]
+
+## 默认绘制策略
+
+* 浏览器厂商为了让用户在小屏幕下网页也能够显示地很好，所以把视口宽度设置地很大，一般在 768px ~ 1024px 之间，最常见的宽度是 980px
+* IOS自动调整默认缩放比
+
+![没有设置viewport](https://camo.githubusercontent.com/204ead9fb51cda7871a1847de0f3ea5cc6e266a9/687474703a2f2f37786c6332612e636f6d312e7a302e676c622e636c6f7564646e2e636f6d2f466c762d6c39696366612d307853796e69665f6659707472786c58373f696d616765566965772f322f772f333030)
+
+[slide]
+
+## 做个试验
+
+[Demo](http://0.0.0.0:8081/mobile-page/viewport.html)
 
 [slide]
 
@@ -169,6 +208,14 @@ div {
 
 [slide]
 
+## 做个试验
+
+[Demo](http://huodong.m.taobao.com/act/yibo.html)
+
+![Qrcode](https://camo.githubusercontent.com/ed811c9fc57a03fe46ef716921a221a678bb1160/687474703a2f2f7777772e773363706c75732e636f6d2f73697465732f64656661756c742f66696c65732f626c6f67732f323031352f313531312f7969626f71722e706e67)
+
+[slide]
+
 ## 使用栅格系统
 
 [makegrid](https://github.com/amfe/lib-flexible#栅格系统)配置参数
@@ -211,7 +258,92 @@ div {
 
 [slide]
 
-## 页面是如何开发的
+## 做个试验
+
+[终于可以随意加减导航了](http://0.0.0.0:8081/mobile-page/flexbox.html)
+
+[slide]
+
+## 调试工具
+
+* [Chrome DevTools](https://developer.chrome.com/devtools/docs/device-mode)
+* [Weinre](http://blog.csdn.net/freshlover/article/details/42640253)
+* [微信web开发者工具](http://mp.weixin.qq.com/wiki/10/e5f772f4521da17fa0d7304f68b97d7e.html#.E4.B8.8B.E8.BD.BD.E5.9C.B0.E5.9D.80)
+* [Browsersync](http://www.browsersync.cn/)
+
+[slide]
+
+## 善用搜索引擎和堆栈
+
+```
+try {
+  something
+} catch(e) {
+  window.location.href = 'http://stackoverflow.com/search?q=[js] + ' + e.message;
+}
+```
+
+[slide]
+
+## 懂点设计
+
+CRAP
+
+<div class="columns2">
+<img src="http://vdemo.qiniudn.com/without-design.jpg" height="450">
+<img src="http://vdemo.qiniudn.com/with-design.jpg" height="450">
+</div>
+
+[slide]
+
+## 对比(Contrast)
+
+* 对比的基本思想就是要避免页面上的元素太过相似
+* 如果元素（字体、颜色、大小、线宽、形状、空间等）不相同，那就干脆让它们截然不同
+* 对比能够让讯息更准确的传达，内容更容易的被找到、被记住。如果你想让对比效果更明显，就一定要大胆，不要让两种颜色看起来好像差不错又不一样
+* 当然也不要在同一个页面使用太多种字体
+
+[slide style="background-image:url('http://vdemo.qiniudn.com/contrast-design.jpg');background-size:contain;background-position:50%;"]
+
+[slide]
+
+## 重复(Repetition)
+
+* 重复的目的就是“一致性”，让设计中的视觉要素在整个作品中重复出现
+* 可以重复颜色、形状、材质、空间关系、线宽、材质、空间等
+* 既能增加条理性，又能增加统一性
+
+[slide style="background-image:url('http://vdemo.qiniudn.com/repetition-design.jpg');background-size:contain;background-position:50%;"]
+
+[slide]
+
+## 对齐(Alignment)
+
+* 任何东西都不能在页面上随意安放
+* 每个元素都应当与页面上的另一个元素有某种视觉联系
+* 这样能够建立一种清晰、精巧而清爽的外观，提升可读性
+* 避免一个页面上混用多种对其模式，也就是不要有一些置左，有一些置右
+* 尽量避免使用居中对齐，除非是比较正式、稳重的设计（有些时候居中是一种很土的对齐方式）
+
+[slide style="background-image:url('http://vdemo.qiniudn.com/alignment-design.jpg');background-size:contain;background-position:50%;"]
+
+[slide]
+
+## 亲密性(Proximity)
+
+* 彼此相关的项应当靠近，归组在一起
+* 如果多个项相互之间存在很近的亲密性，它们就会成为一个视觉单元，而不是多个孤立的元素
+* 有助于组织信息，减少混乱，为读者提供清晰的结构
+
+[slide style="background-image:url('http://vdemo.qiniudn.com/proximity-design.jpg');background-size:contain;background-position:50%;"]
+
+[slide]
+
+## Take a break
+
+[slide]
+
+## OmniSocials页面是如何开发的
 
 * Yii2.0标准的MVC模式
 * 在模块的webapp目录下
@@ -227,6 +359,7 @@ div {
 ## Vendor工具库
 
 * [jweixin](http://mp.weixin.qq.com/wiki/11/74ad127cc054f6b80759c40f77ec03db.html): 微信JSSDK，不解释
+* [flexible](https://github.com/amfe/lib-flexible): 移动端自适应布局方案
 * [zepto](https://github.com/madrobby/zepto): 移动端jquery
 * [moment](https://github.com/moment/moment): 日期处理工具集
 * [swiper](https://github.com/nolimits4web/Swiper.git#3.0.7): 带硬件加速滑动轮播插件
@@ -234,6 +367,7 @@ div {
 * [alogs](https://github.com/fex-team/alogs): 前端统计库
 * [mobile-detect](https://github.com/hgoebl/mobile-detect.js): 设备识别库
 * [hammer](https://github.com/hammerjs/hammer.js): 手势识别工具库
+* [fastclick](https://github.com/ftlabs/fastclick): 解决手机上click事件的300ms问题
 
 [slide]
 
@@ -366,81 +500,6 @@ Vue.js
 
 [slide]
 
-## 调试工具
-
-* [Chrome DevTools](https://developer.chrome.com/devtools/docs/device-mode)
-* [Weinre](http://blog.csdn.net/freshlover/article/details/42640253)
-* [微信web开发者工具](http://mp.weixin.qq.com/wiki/10/e5f772f4521da17fa0d7304f68b97d7e.html#.E4.B8.8B.E8.BD.BD.E5.9C.B0.E5.9D.80)
-* [Browsersync](http://www.browsersync.cn/)
-
-[slide]
-
-## 善用搜索引擎和堆栈
-
-```
-try {
-  something
-} catch(e) {
-  window.location.href = 'http://stackoverflow.com/search?q=[js] + ' + e.message;
-}
-```
-
-[slide]
-
-## 懂点设计
-
-CRAP
-
-<div class="columns2">
-<img src="http://vdemo.qiniudn.com/without-design.jpg" height="450">
-<img src="http://vdemo.qiniudn.com/with-design.jpg" height="450">
-</div>
-
-[slide]
-
-## 对比(Contrast)
-
-* 对比的基本思想就是要避免页面上的元素太过相似
-* 如果元素（字体、颜色、大小、线宽、形状、空间等）不相同，那就干脆让它们截然不同
-* 对比能够让讯息更准确的传达，内容更容易的被找到、被记住。如果你想让对比效果更明显，就一定要大胆，不要让两种颜色看起来好像差不错又不一样
-* 当然也不要在同一个页面使用太多种字体
-
-[slide style="background-image:url('http://vdemo.qiniudn.com/contrast-design.jpg');background-size:cover;"]
-
-[slide]
-
-## 重复(Repetition)
-
-* 重复的目的就是“一致性”，让设计中的视觉要素在整个作品中重复出现
-* 可以重复颜色、形状、材质、空间关系、线宽、材质、空间等
-* 既能增加条理性，又能增加统一性
-
-[slide style="background-image:url('http://vdemo.qiniudn.com/repetition-design.jpg');background-size:cover;"]
-
-[slide]
-
-## 对齐(Alignment)
-
-* 任何东西都不能在页面上随意安放
-* 每个元素都应当与页面上的另一个元素有某种视觉联系
-* 这样能够建立一种清晰、精巧而清爽的外观，提升可读性
-* 避免一个页面上混用多种对其模式，也就是不要有一些置左，有一些置右
-* 尽量避免使用居中对齐，除非是比较正式、稳重的设计（有些时候居中是一种很土的对齐方式）
-
-[slide style="background-image:url('http://vdemo.qiniudn.com/alignment-design.jpg');background-size:cover;"]
-
-[slide]
-
-## 亲密性(Proximity)
-
-* 彼此相关的项应当靠近，归组在一起
-* 如果多个项相互之间存在很近的亲密性，它们就会成为一个视觉单元，而不是多个孤立的元素
-* 有助于组织信息，减少混乱，为读者提供清晰的结构
-
-[slide style="background-image:url('http://vdemo.qiniudn.com/proximity-design.jpg');background-size:cover;"]
-
-[slide]
-
 ## 参考资料
 
 * [使用Flexible实现手淘H5页面的终端适配](https://github.com/amfe/article/issues/17)
@@ -454,6 +513,8 @@ CRAP
 * [Paul Irish's post: Chrome DevTools for Mobile](http://www.html5rocks.com/en/tutorials/developertools/mobile/?redirect_from_locale=zh)
 * [移动端前端开发调试](http://yujiangshui.com/multidevice-frontend-debug/)
 * [视区相关单位vw, vh..简介以及可实际应用场景](http://www.zhangxinxu.com/wordpress/2012/09/new-viewport-relative-units-vw-vh-vm-vmin/)
+* [Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
+* [iOS9 带来的initial-scale的变化](http://div.io/topic/1409)
 
 [slide]
 
