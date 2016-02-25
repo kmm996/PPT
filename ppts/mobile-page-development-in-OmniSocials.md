@@ -103,12 +103,18 @@ dpr = 750 / 375 = 2
 
 理想视口中的网页用户最理想的宽度，用户进入页面的时候不需要缩放
 
+![缩放比例](http://ybshare.coding.io/share/img/flexible/width-demo.gif)
+
 [slide]
 
 ## 缩放的影响
 
 * 缩放是在放大或缩小逻辑像素，也就是CSS像素，不影响设备像素
 * 缩放会影响布局视口的尺寸，不会影响视觉视口
+
+```js
+zoom level = screen.width / window.innerWidth
+```
 
 ```html
 <meta name="viewport" content="initial-scale=1,user-scalable=no">
@@ -179,6 +185,8 @@ div {
   font-size: 36px;
 }
 ```
+
+[Rem单位](http://0.0.0.0:8081/mobile-page/rem.html)
 
 [slide]
 
